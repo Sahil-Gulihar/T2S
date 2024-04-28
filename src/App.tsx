@@ -1,10 +1,10 @@
-import { useRef, useState } from 'react'
-import './App.css'
+import { useRef, useState } from "react";
+import "./App.css";
 
 function App() {
   const [text, setText] = useState<string>("");
   const [audioSrc, setAudioSrc] = useState<string | null>(null);
-  const [audioKey, setAudioKey] = useState<number>(0); // Unique key
+  const [audioKey, setAudioKey] = useState<number>(0);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
 
   const convertTextToSpeech = async () => {
@@ -21,16 +21,16 @@ function App() {
         const blob = await response.blob();
         const audioUrl = URL.createObjectURL(blob);
         setAudioSrc(audioUrl);
-        setAudioKey((prevKey) => prevKey + 1); // Update key to force re-render
+        setAudioKey((prevKey) => prevKey + 1);
 
         if (audioPlayerRef.current) {
           audioPlayerRef.current.pause();
-          audioPlayerRef.current.load(); // Reload the audio element to ensure it plays the new source
+          audioPlayerRef.current.load();
         }
       } else {
         throw new Error("Failed to convert text to speech");
       }
-    } catch (error) {
+    } catch (error: any) {
       alert(error.message);
     }
   };
@@ -40,7 +40,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div style={{ position: "relative", minHeight: "100vh" }}>
       <h1>Text to Speech</h1>
       <textarea
         id="textInput"
@@ -54,43 +54,63 @@ function App() {
       <button onClick={convertTextToSpeech}>Convert to Speech</button>
       <br />
       {audioSrc && (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <audio
-            controls
-            key={audioKey}
-            ref={(audio) => (audioPlayerRef.current = audio)}
-            id="audioPlayer"
-            style={{ marginRight: '10px' }}
-          >
-            <source src={audioSrc} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
-          <a
-            href={audioSrc}
-            download="audio.mp3"
-            style={{
-              display: 'block',
-              margin: '0 auto',
-              padding: '0.5rem 1rem', // Reduced padding
-              fontSize: '0.9rem', // Reduced font size
-              backgroundColor: '#ff6347',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              transition: 'background-color 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#ff7f50';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#ff6347';
-            }}
-          >
-            Download
-          </a>
-        </div>
+        <audio
+          controls
+          key={audioKey}
+          ref={(audio) => (audioPlayerRef.current = audio)}
+          id="audioPlayer"
+        >
+          <source src={audioSrc} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
       )}
+      <div style={{ color: "#666" }}>
+        <a
+          href="https://github.com/Sahil-Gulihar"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: "#666",
+            textDecoration: "none",
+            transition: "color 0.3s, font-size 0.3s",
+          }}
+          onMouseOver={(e) => {
+            const target = e.target as HTMLElement;
+            target.style.color = "#fff";
+            target.style.fontSize = "1.1em";
+          }}
+          onMouseOut={(e) => {
+            const target = e.target as HTMLElement;
+            target.style.color = "#666";
+            target.style.fontSize = "1em";
+          }}
+        >
+          GitHub
+        </a>{" "}
+        |{" "}
+        <a
+          href="https://www.linkedin.com/in/sahil-gulihar-130573249/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: "#666",
+            textDecoration: "none",
+            transition: "color 0.3s, font-size 0.3s",
+          }}
+          onMouseOver={(e) => {
+            const target = e.target as HTMLElement;
+            target.style.color = "#fff";
+            target.style.fontSize = "1.1em";
+          }}
+          onMouseOut={(e) => {
+            const target = e.target as HTMLElement;
+            target.style.color = "#666";
+            target.style.fontSize = "1em";
+          }}
+        >
+          LinkedIn
+        </a>
+      </div>
     </div>
   );
 }

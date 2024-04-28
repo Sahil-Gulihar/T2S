@@ -9,7 +9,7 @@
 body {
   background-color: #1a1a1a;
   color: #fff;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 /* Style the main container */
@@ -94,4 +94,4 @@ h1 {
 
 audio {
   animation: fadeIn 1s ease;
-} */
+}
